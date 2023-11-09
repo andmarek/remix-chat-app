@@ -10,11 +10,14 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "@remix-run/css-bundle": "^2.2.0",
     "@remix-run/node": "^2.2.0",
     "@remix-run/react": "^2.2.0",
     "@remix-run/serve": "^2.2.0",
+    "@types/md5": "^2.3.4",
     "isbot": "^3.6.8",
+    "md5": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "socket.io-client": "^4.7.2",

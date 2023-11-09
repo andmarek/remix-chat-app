@@ -18,6 +18,7 @@ export const links: LinksFunction = () => [
 */
 
 import styles from "./tailwind.css";
+import NavBar from "./components/NavBar";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
@@ -32,6 +33,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <NavBar /> 
         <Outlet />
         <ScrollRestoration />
         <Scripts />
