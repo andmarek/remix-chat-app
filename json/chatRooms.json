@@ -1,1 +1,81 @@
-{"rooms":{"chatUuid":{"title":"epic","messages":[]},"9b175f67-a6af-47d2-8a9e-dbd20808f2f2":{"title":"epic2","messages":[]},"a3b33f7d-431b-478a-86b7-71805e84daf7":{"title":"whatever fdkjfdsakfds","messages":[]},"511d8b00-7cfd-4460-bb56-7ede0b864a16":{"title":"erica is cool","messages":[]}}}
+{
+  "rooms": {
+    "chatUuid": { "title": "epic", "messages": [] },
+    "9b175f67-a6af-47d2-8a9e-dbd20808f2f2": {
+      "title": "epic2",
+      "messages": []
+    },
+    "a3b33f7d-431b-478a-86b7-71805e84daf7": {
+      "title": "whatever fdkjfdsakfds",
+      "messages": []
+    },
+    "511d8b00-7cfd-4460-bb56-7ede0b864a16": {
+      "title": "erica is cool",
+      "messages": []
+    },
+    "06cde31c-87d0-4942-8f9b-1c2b5362f7c7": {
+      "title": "testing",
+      "messages": []
+    },
+    "8605e5c3-d803-465a-9589-ca7a457cd715": { "title": "hey", "messages": [] },
+    "9c2f1a7c-4f70-456e-bf80-ba4fff87d3fb": { "title": "fuck", "messages": [] },
+    "7c07c364-86ec-42c8-917e-d779ce62c331": {
+      "title": "create",
+      "messages": []
+    },
+    "892df6c8-db37-4c61-9788-249ce826a779": {
+      "title": "create",
+      "messages": []
+    },
+    "ae2b1fca515949e5d54fb22b8ed95575": { "title": "testing", "messages": [] },
+    "6057f13c496ecf7fd777ceb9e79ae285": { "title": "hey", "messages": [] },
+    "5d41402abc4b2a76b9719d911017c592": { "title": "hello", "messages": [] },
+    "020be165a3e587d7c83cb489c3ec9923": { "title": "epic", "messages": [] },
+    "25ed1bcb423b0b7200f485fc5ff71c8e": { "title": "zz", "messages": [] },
+    "aadce520e20c2899f4ced228a79a3083": { "title": "wtf", "messages": [] },
+    "7f2ababa423061c509f4923dd04b6cf1": {
+      "title": "testing123",
+      "messages": []
+    },
+    "4e690bbc8394a8062361a838d1e3d883": { "title": "chatme", "messages": [] },
+    "ddf14522872deaebbd649d42cf4a8fe9": { "title": "fffa", "messages": [] },
+    "f3abb86bd34cf4d52698f14c0da1dc60": { "title": "zzz", "messages": [] },
+    "041bed082da040a4bf38bddbc2600aa0": { "title": "wzs", "messages": [] },
+    "8ba97607a1485ccdbe19745ed80cd52d": { "title": "zaza", "messages": [] },
+    "e1a7c4358706c6202e95d0356b9d7672": {
+      "title": "testing1234",
+      "messages": []
+    },
+    "d0965c07d1a00fcc85d28b8a241ae35a": { "title": "wz", "messages": [] },
+    "d9e62c0ad204fe91658ecc758049e515": { "title": "heythere", "messages": [] },
+    "fd449f6d956b2f2fb5eb86f8ca148208": { "title": "bnetter", "messages": [] },
+    "9350dea3fbee87eed4535a1e045c735d": { "title": "zzazaa", "messages": [] },
+    "bd1e3e31eaf230be358cb83ab0119563": { "title": "fuc", "messages": [] },
+    "9336ebf25087d91c818ee6e9ec29f8c1": { "title": "xx", "messages": [] },
+    "e3eb21918d1e39a831d80868b884ccf5": { "title": "fdafds", "messages": [] },
+    "69ee52c7adbe186c0e97caf1fb15c782": {
+      "title": "testingfff",
+      "messages": []
+    },
+    "4f14fbe4af13860085e563210782da88": { "title": "fdsafdas", "messages": [] },
+    "ece926d8c0356205276a45266d361161": { "title": "ffff", "messages": [] },
+
+
+    "chatRoomHash": {
+        "chatMetaData": {
+            "title": "title",
+            "dateCreated": "dateCreated"
+        },
+        "messages": {
+            "messageHash": {
+                "message": "message",
+                "dateCreated": "dateCreated",
+                "user": "user"
+            }
+        },
+        "usersConnected": [
+
+        ]
+    }
+  }
+}

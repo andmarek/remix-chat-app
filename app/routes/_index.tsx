@@ -13,6 +13,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import fsPromises from "fs/promises";
 
+import { IChat } from "../interfaces/chat";
+
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
@@ -20,30 +22,35 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-interface IChat {
+interface createChatProps {
   title: string;
 }
-
-async function createChat(props: IChat) {
+async function createChat(props: createChatProps) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const jsonDirectory = __dirname + "/../json";
 
-  let chatMd5 = md5(props.title);
+  let chatRoomHash = md5(props.title);
 
-  fs.readFile(jsonDirectory + "/chatRooms.json", "utf8", (err, data) => {
+  fs.readFile(jsonDirectory + "/chatRooms2.json", "utf8", (err, data) => {
     if (err) {
       console.log("An error occured while reading JSON Object");
       return;
     }
+
     const chatRooms = JSON.parse(data);
-    chatRooms.rooms[chatMd5] = {
-      title: props.title,
-      messages: [],
+
+    chatRooms[chatRoomHash] = {
+      metadata: {
+        title: props.title,
+        dateCreated: Date.now(),
+      },
+      messages: {},
+      usersConnected: []
     };
 
     fs.writeFile(
-      jsonDirectory + "/chatRooms.json",
+      jsonDirectory + "/chatRooms2.json",
       JSON.stringify(chatRooms),
       (err) => {
         if (err) {
@@ -56,22 +63,24 @@ async function createChat(props: IChat) {
     );
   });
 
-  return chatMd5;
+  return chatRoomHash;
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   console.log("chatId: " + params.chatId);
-  const chatDetails = await getExistingChats(params.chatId);
-  console.log("chatDetails: " + chatDetails);
-  if (!chatDetails) {
+  const existingChats = await getExistingChats({table: "chatRooms2"});
+
+  console.log("chatDetails: " + existingChats);
+  if (!existingChats) {
     throw new Response("Could not find chat with UUID", { status: 404 });
   }
   console.log("we probably did find the chat Id :)");
-  return chatDetails;
+  return existingChats;
 };
 
 export default function Index() {
   const existingChats = useLoaderData<typeof loader>();
+  console.log(existingChats)
 
   const actionData = useActionData<typeof action>();
 
@@ -87,12 +96,15 @@ export default function Index() {
         <div>
           {
             <ul>
-              {Object.keys(existingChats.rooms).map((chatId, index) => {
+              {Object.keys(existingChats).map((chatId, index) => {
                 let bgColor = index % 2 === 0 ? "bg-slate-400" : "bg-slate-500";
                 return (
-                  <li className={`${bgColor} hover:text-red-500 duration-300`} key={chatId}>
+                  <li
+                    className={`${bgColor} hover:text-red-500 duration-300`}
+                    key={chatId}
+                  >
                     <a href={`/chat/${chatId}`}>
-                      {existingChats.rooms[chatId].title}
+                      {existingChats[chatId].metadata.title}
                     </a>
                   </li>
                 );
@@ -131,34 +143,37 @@ export default function Index() {
             Create new Chat{" "}
           </button>
         </Form>
-        <div>
-        </div>
+        <div></div>
       </div>
     </div>
   );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  console.log("wowza");
   const body = await request.formData();
-  const chatId = await createChat({ title: body.get("title") });
+  const title = body.get("title");
+
+  if (title === null || typeof title !== 'string') {
+    throw new Error('Title is missing in the form data');
+  }
+
+  const chatId = await createChat({ title });
 
   return redirect(`/chat/${chatId}`);
 }
 
-async function getExistingChats(uuid: string) {
+async function getExistingChats(props: {table: string}) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const jsonDirectory = __dirname + "/../json";
 
   try {
     const data = await fsPromises.readFile(
-      jsonDirectory + "/chatRooms.json",
+      jsonDirectory + `/${props.table}.json`,
       "utf8"
     );
     const chatRooms = JSON.parse(data);
-    return chatRooms;
-    return uuid || null;
+    return chatRooms || null;
   } catch (err) {
     console.error("An error occurred while reading JSON Object", err);
     return null;
