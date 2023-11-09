@@ -11,6 +11,7 @@ import { v4 } from "uuid";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { getSession, commitSession } from '~/sessions';
 import fsPromises from "fs/promises";
 
 import { IChat } from "../interfaces/chat";
@@ -143,7 +144,6 @@ export default function Index() {
             Create new Chat{" "}
           </button>
         </Form>
-        <div></div>
       </div>
     </div>
   );
@@ -151,15 +151,28 @@ export default function Index() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
-  const title = body.get("title");
 
-  if (title === null || typeof title !== 'string') {
-    throw new Error('Title is missing in the form data');
+  const title = body.get("title");
+  const userId = body.get("username");
+
+  if (title === null || typeof title !== "string") {
+    throw new Error("Title is missing in the form data");
   }
 
   const chatId = await createChat({ title });
 
-  return redirect(`/chat/${chatId}`);
+  const session = await getSession(request.headers.get("Cookie"));
+  if (userId) {
+    console.log("Setting userId to: " + userId.toString());
+    session.set("userId", userId.toString());
+  } else {
+    console.log("not user id");
+  }
+  return redirect(`/chat/${chatId}`, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
 
 async function getExistingChats(props: {table: string}) {
