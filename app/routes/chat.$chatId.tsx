@@ -53,17 +53,14 @@ export default function Chat(props: IChat) {
     ws.current.onopen = () => {
       if (ws.current.readyState === WebSocket.OPEN) {
         console.log("WebSocket connection established");
-
-        // Send username so that the server can keep track of who is connected
-        ws.current.send(JSON.stringify({ type: "username", username: userId }));
       }
     };
   
     ws.current.onmessage = (event) => {
-      console.log("received_message" + event.data);
-      const receivedMessage = JSON.parse(event.data);
+      console.log("Received message: " + event.data);
+      const data = event.data;
 
-      setCurrentMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      setCurrentMessages((prevMessages) => [...prevMessages, data]);
       console.log("currentMessages after: " + currentMessages);
     };
   
@@ -88,20 +85,27 @@ export default function Chat(props: IChat) {
     console.log("sending message: " + message);
     
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      ws.current.send(JSON.stringify({ message }));
-      setCurrentMessages((prevMessages) => [...prevMessages,  message ]);
+
+      const messageToSend = { "username": userId, "message": message }
+      ws.current.send(JSON.stringify(messageToSend));
+
+      // TODO: make the messages objects instead of strings so we can store the history
+      setCurrentMessages((prevMessages) => [...prevMessages, `${userId}: ${messageToSend.message}`]);
       console.log(currentMessages);
     }
     setMessage("");
   };
 
   return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900">
+        <div className="w-full max-w-2xl mx-auto bg-stone-950 shadow-lg rounded-lg">
           <div className="border-b-2 border-gray-200 p-4">
-            <h1 className="text-3xl font-bold text-center text-gray-700">Welcome, {userId}: {chatDetails.metadata.title}</h1>
+            <div className="flex flex-col">
+              <h1 className="text-white text-3xl font-bold text-center"> Chatroom Name: {chatDetails.metadata.title}</h1>
+              <h1 className="text-3xl font-bold text-center text-gray-700">Welcome, {userId}</h1>
+            </div>
           </div>
-          <ul className="overflow-auto h-96 bg-gray-50 p-4">
+          <ul className="overflow-auto h-96 bg-stone-950 p-4">
             {currentMessages.map((msg, index) => (
               <li key={index} className="bg-blue-100 rounded-md p-2 my-2 break-words">
                 <p className="text-gray-800">{msg}</p> {/* Display received messages */}
